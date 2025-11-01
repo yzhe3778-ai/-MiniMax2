@@ -101,7 +101,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!response.ok) {
+    // 检查 API 响应状态
+    if (!response.ok || data.base_resp?.status_code !== 0) {
       console.error('MiniMax API 错误:', data);
 
       // 处理特定错误
@@ -109,16 +110,25 @@ export async function POST(request: NextRequest) {
 
       // 余额不足
       if (data.base_resp?.status_code === 1008) {
-        errorMessage = 'MiniMax 账户余额不足，请充值后重试';
+        errorMessage = '⚠️ MiniMax 账户余额不足\n\n请前往 MiniMax 平台充值：\nhttps://platform.minimaxi.com/';
+        console.error('余额不足 - 需要充值');
       }
       // 参数错误
       else if (data.base_resp?.status_code === 2013) {
         errorMessage = `参数配置错误: ${data.base_resp.status_msg}`;
       }
+      // 其他错误
+      else if (data.base_resp?.status_code) {
+        errorMessage = `错误 ${data.base_resp.status_code}: ${data.base_resp.status_msg}`;
+      }
 
       return NextResponse.json(
-        { error: errorMessage, details: data },
-        { status: response.status }
+        { 
+          error: errorMessage, 
+          details: data,
+          errorCode: data.base_resp?.status_code 
+        },
+        { status: response.ok ? 400 : response.status }
       );
     }
 
