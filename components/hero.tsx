@@ -1,44 +1,52 @@
-import { NextLogo } from "./next-logo";
-import { SupabaseLogo } from "./supabase-logo";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
-export function Hero() {
+export default function Hero() {
   return (
-    <div className="flex flex-col gap-16 items-center">
-      <div className="flex gap-8 justify-center items-center">
-        <a
-          href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <SupabaseLogo />
-        </a>
-        <span className="border-l rotate-45 h-6" />
-        <a href="https://nextjs.org/" target="_blank" rel="noreferrer">
-          <NextLogo />
-        </a>
+    <section className="px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl text-center">
+        <h1 className="text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+          Create Better AI Content
+          <br />
+          with{' '}
+          <span className="bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">
+            minimaxm2
+          </span>
+        </h1>
+
+        <p className="mt-6 text-lg text-gray-600 sm:text-xl">
+          AI Agent、图像生成、视频创作 - 一站式 AI 创作平台
+        </p>
+
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link href="/minimaxm2">
+            <Button
+              size="lg"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 text-lg font-medium rounded-lg"
+            >
+              MiniMax Agent
+            </Button>
+          </Link>
+          <Link href="/generate-image">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg font-medium rounded-lg"
+            >
+              Generate Images
+            </Button>
+          </Link>
+          <Link href="/image-to-prompt">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg font-medium rounded-lg"
+            >
+              Image to Prompt
+            </Button>
+          </Link>
+        </div>
       </div>
-      <h1 className="sr-only">Supabase and Next.js Starter Template</h1>
-      <p className="text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center">
-        The fastest way to build apps with{" "}
-        <a
-          href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
-          Supabase
-        </a>{" "}
-        and{" "}
-        <a
-          href="https://nextjs.org/"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
-          Next.js
-        </a>
-      </p>
-      <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-8" />
-    </div>
+    </section>
   );
 }
