@@ -26,7 +26,7 @@ export default function Hailuo23Page() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<ModelType>('MiniMax-Hailuo-2.3');
   const [duration, setDuration] = useState<6 | 10>(6);
-  const [resolution, setResolution] = useState<'720P' | '1080P'>('1080P');
+  const [resolution, setResolution] = useState<'768P' | '1080P'>('1080P');
   const [selectedCamera, setSelectedCamera] = useState<CameraCommand | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
@@ -351,9 +351,9 @@ export default function Hailuo23Page() {
                       </button>
                       <button
                         onClick={() => {
-                          // MiniMax-Hailuo-2.3 不支持 10秒 + 1080P 组合，应切换到 720P
+                          // MiniMax-Hailuo-2.3 不支持 10秒 + 1080P 组合，应切换到 768P
                           if (selectedModel === 'MiniMax-Hailuo-2.3' && resolution === '1080P') {
-                            setResolution('720P');
+                            setResolution('768P');
                           }
                           setDuration(10);
                         }}
@@ -369,7 +369,7 @@ export default function Hailuo23Page() {
                     </div>
                     {selectedModel === 'MiniMax-Hailuo-2.3' && duration === 10 && (
                       <p className="mt-2 text-xs text-amber-600">
-                        ⚠️ Hailuo 2.3 的 10秒模式仅支持 720P
+                        ⚠️ Hailuo 2.3 的 10秒模式仅支持 768P
                       </p>
                     )}
                   </div>
@@ -381,15 +381,15 @@ export default function Hailuo23Page() {
                     </label>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => setResolution('720P')}
+                        onClick={() => setResolution('768P')}
                         className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                          resolution === '720P'
+                          resolution === '768P'
                             ? 'bg-purple-600 text-white'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                         disabled={isGenerating}
                       >
-                        720P
+                        768P
                       </button>
                       <button
                         onClick={() => {
@@ -416,7 +416,7 @@ export default function Hailuo23Page() {
                       </p>
                     )}
                     <p className="mt-2 text-xs text-gray-500">
-                      💡 推荐：快速预览使用 720P，最终成品使用 1080P
+                      💡 推荐：快速预览使用 768P，最终成品使用 1080P
                     </p>
                   </div>
                 </div>

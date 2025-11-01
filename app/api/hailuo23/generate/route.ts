@@ -41,17 +41,25 @@ export async function POST(request: NextRequest) {
       resolution,
     };
 
-    // 如果是图片转视频模式，需要上传图片获取 URL
+    // 如果是图片转视频模式，需要上传图片
     if (image) {
-      // 这里需要先将图片上传到云存储获取 URL
-      // 暂时使用 base64 编码 (实际生产环境应该使用 CDN)
+      // 根据官方文档，支持公网 URL 或 Base64 Data URL
+      // 格式：data:image/jpeg;base64,... 或 data:image/png;base64,...
       const imageBuffer = await image.arrayBuffer();
       const base64Image = Buffer.from(imageBuffer).toString('base64');
-      const imageDataUrl = `data:${image.type};base64,${base64Image}`;
-
-      // 注意: MiniMax API 可能需要公网可访问的图片 URL
-      // 这里可能需要先上传到云存储服务
+      
+      // 确保使用正确的 MIME 类型
+      let mimeType = image.type;
+      if (!mimeType || mimeType === 'application/octet-stream') {
+        // 如果无法检测类型，默认使用 jpeg
+        mimeType = 'image/jpeg';
+      }
+      
+      const imageDataUrl = `data:${mimeType};base64,${base64Image}`;
       requestData.first_frame_image = imageDataUrl;
+      
+      console.log('图片格式:', mimeType);
+      console.log('图片大小:', imageBuffer.byteLength, 'bytes');
     }
 
     console.log('调用 MiniMax 视频生成 API...');
