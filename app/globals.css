@@ -33,5 +33,21 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: 'kern' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* 优化中文字体渲染 */
+  html {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 
+                 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  
+  /* 确保中文标点符号正确显示 */
+  body {
+    quotes: '"' '"' ''' ''';
   }
 }

@@ -10,6 +10,21 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          'var(--font-noto-sans-sc)',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'PingFang SC',
+          'Hiragino Sans GB',
+          'Microsoft YaHei',
+          'Helvetica Neue',
+          'Helvetica',
+          'Arial',
+          'sans-serif',
+        ],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

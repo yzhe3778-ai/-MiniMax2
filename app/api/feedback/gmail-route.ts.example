@@ -1,0 +1,118 @@
+// 这是使用 Gmail SMTP 发送邮件的完整实现示例
+// 要启用此功能，请按照以下步骤操作：
+
+// 1. 安装依赖：npm install nodemailer
+// 2. 配置 Gmail 应用专用密码（见 FEEDBACK_SETUP.md）
+// 3. 在 .env.local 中添加：
+//    GMAIL_USER=le2932169@gmail.com
+//    GMAIL_APP_PASSWORD=你的应用专用密码
+// 4. 将此文件重命名为 route.ts（替换现有文件）
+
+import { NextRequest, NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+
+// 创建邮件传输器
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const { name, email, message } = await request.json();
+
+    // 验证必填字段
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: '请填写所有必填字段' },
+        { status: 400 }
+      );
+    }
+
+    // 验证邮箱格式
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: '请输入有效的邮箱地址' },
+        { status: 400 }
+      );
+    }
+
+    // 验证消息长度
+    if (message.length < 10 || message.length > 1000) {
+      return NextResponse.json(
+        { error: '反馈内容长度应在 10-1000 个字符之间' },
+        { status: 400 }
+      );
+    }
+
+    // 检查 Gmail 配置
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+      console.error('Gmail 配置未设置');
+      return NextResponse.json(
+        { error: 'Gmail 邮件服务未配置，请联系管理员' },
+        { status: 500 }
+      );
+    }
+
+    // 构建邮件内容
+    const emailContent = `
+新的用户反馈
+
+姓名: ${name}
+邮箱: ${email}
+时间: ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}
+
+反馈内容:
+${message}
+
+---
+此邮件来自 MiniMax2 AI 平台反馈系统
+    `.trim();
+
+    // 发送邮件
+    await transporter.sendMail({
+      from: process.env.GMAIL_USER,
+      to: 'le2932169@gmail.com', // 接收反馈的邮箱
+      subject: `【MiniMax2 反馈】${name} 的反馈`,
+      text: emailContent,
+      replyTo: email, // 用户的邮箱，方便直接回复
+    });
+
+    console.log('反馈邮件发送成功:', {
+      name,
+      email,
+      timestamp: new Date().toISOString(),
+    });
+
+    // 返回成功响应
+    return NextResponse.json({
+      success: true,
+      message: '反馈已提交成功',
+      data: {
+        name,
+        email,
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+  } catch (error) {
+    console.error('处理反馈时出错:', error);
+    
+    // 如果是邮件发送错误，提供更详细的信息
+    if (error instanceof Error) {
+      console.error('错误详情:', error.message);
+    }
+    
+    return NextResponse.json(
+      {
+        error: '提交失败，请重试或直接发送邮件至 le2932169@gmail.com',
+      },
+      { status: 500 }
+    );
+  }
+}
+

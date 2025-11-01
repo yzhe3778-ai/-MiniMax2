@@ -2,6 +2,7 @@ import Navbar from '@/components/navbar';
 import Hero from '@/components/hero';
 import FeatureCards from '@/components/feature-cards';
 import ToolsSection from '@/components/tools-section';
+import FeedbackSection from '@/components/feedback-section';
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <FeatureCards />
       <ToolsSection />
+      <FeedbackSection />
     </main>
   );
 }
