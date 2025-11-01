@@ -89,6 +89,11 @@ export default function RootLayout({
     <html lang="zh-CN">
       <head>
         <StructuredData />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5606984944198315"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className={notoSansSC.className}>{children}</body>
     </html>
