@@ -1,0 +1,21 @@
+# robots.txt for MiniMax2 AI Platform
+# 允许所有搜索引擎爬虫访问
+
+User-agent: *
+Allow: /
+
+# 允许爬取所有页面
+Allow: /hailuo23
+Allow: /minimaxm2
+Allow: /generate-image
+Allow: /image-to-prompt
+Allow: /sora2
+
+# 禁止爬取 API 路由和私有文件
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Sitemap 位置
+Sitemap: https://minimax2.pages.dev/sitemap.xml
+
